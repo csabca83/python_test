@@ -1,7 +1,7 @@
 from util import ht_functions as ht
 from util import list_functions as lst
 
-test = {"hello": 4, "hey": 5}
+test = {"hello": 4, "hey": 5, "sziababa": 6}
 
 test2 = [3, 5, 6, 4324, 43243212321, 254365]
 
