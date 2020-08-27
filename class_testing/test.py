@@ -28,10 +28,18 @@ class Adri(Employees):
     def speak(self):
         print(f"Hello, I'm {self.name} , {self.age} years old.")
 
+
+
 d = input("Please type Adri or Csaba: ")
+
+
 
 if d == "Csaba":
     c = Csaba("Csaba", 25, "white")
+
+
 else:
     c = Adri("Adri", 24, "white")
+
+
 c.speak()
