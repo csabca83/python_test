@@ -42,7 +42,7 @@ def webhook():
         try:
             text_input = str.lower(data['entry'][0]['messaging'][0]['message']['text'])
             print ("Message from user ID {} - {}".format(user_id, text_input))
-            if "szia" in text_input and user_id == '<insert_the_user_id':
+            if "szia" in text_input and user_id == '<insert_the_user_id>':
                 bot.send_text_message(int(user_id), 'szia, user1')
             else:
                 bot.send_text_message(int(user_id), 'szia, user2')

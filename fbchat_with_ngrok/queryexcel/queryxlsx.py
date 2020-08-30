@@ -11,7 +11,7 @@ class Readexcel:
         self.inputWorksheet = self.inputWorkbook.sheet_by_index(0)
         #print(self.inputWorksheet.nrows)
         #print(self.inputWorksheet.ncols)
-        print(self.inputWorksheet.cell_value(3, 1))
+        #print(self.inputWorksheet.cell_value(3, 1))
 
     def append_items(self):
         self.bejovo_uzenetek = []
@@ -27,16 +27,25 @@ class Readexcel:
             self.random2.append(self.inputWorksheet.cell_value(y, 5))
 
         print(self.bejovo_uzenetek)
-        print(self.index)
-        print(self.valasz_index)
-        print(self.random1)
-        print(self.random2)
+        #print(self.index)
+        #print(self.valasz_index)
+        #print(self.random1)
+        #print(self.random2)
+
+    def append_items_2(self):
+        for i, items in enumerate(self.bejovo_uzenetek):
+            if "szia" in str.lower(items):
+                print(items)
+                self.number_order = (i)
+                print(self.number_order)
+                break
 
 
 r = Readexcel('answers.xlsx')
 
 r.import_excel()
 r.append_items()
+r.append_items_2()
 
 #path = 'answers.xlsx'
 
