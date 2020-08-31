@@ -63,7 +63,7 @@ def webhook():
             r = Readexcel('C:\\Users\\Csaba\\Desktop\\VSC folder\\github\\python_test\\fbchat_with_ngrok\\queryexcel\\answers.xlsx')
             r.import_excel()
             r.append_items()
-            #Using the text message that we just received to decide what answer needs to picked up from the answers.xlsx file
+            #Using the text message that we just received to decide what answer needs to be picked up from the answers.xlsx file
             r.append_items_2(text_input)
             r.find_answer()
             #Picking the random answers from the Readexcel module and sending it back to the sender with an access token by using the Bot class
