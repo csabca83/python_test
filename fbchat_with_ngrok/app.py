@@ -2,6 +2,7 @@ from flask import Flask, request
 import json
 from bot import Bot
 from contextlib import contextmanager
+from queryexcel.queryxlsx import Readexcel
 
 @contextmanager
 def file(filename, method):
@@ -42,10 +43,12 @@ def webhook():
         try:
             text_input = str.lower(data['entry'][0]['messaging'][0]['message']['text'])
             print ("Message from user ID {} - {}".format(user_id, text_input))
-            if "szia" in text_input and user_id == '<insert_the_user_id>':
-                bot.send_text_message(int(user_id), 'szia, user1')
-            else:
-                bot.send_text_message(int(user_id), 'szia, user2')
+            r = Readexcel('C:\\Users\\Csaba\\Desktop\\VSC folder\\github\\python_test\\fbchat_with_ngrok\\queryexcel\\answers.xlsx')
+            r.import_excel()
+            r.append_items()
+            r.append_items_2(text_input)
+            r.find_answer()
+            bot.send_text_message(int(user_id), r.random_answers)
 
         
         except:

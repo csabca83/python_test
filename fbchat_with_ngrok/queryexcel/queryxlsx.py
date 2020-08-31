@@ -10,7 +10,7 @@ class Readexcel:
         self.inputWorkbook = xlrd.open_workbook(self.path)
         self.inputWorksheet = self.inputWorkbook.sheet_by_index(0)
         #print(self.inputWorksheet.nrows)
-        print(self.inputWorksheet.ncols)
+        #print(self.inputWorksheet.ncols)
         #print(self.inputWorksheet.cell_value(3, 1))
 
     def append_items(self):
@@ -31,17 +31,17 @@ class Readexcel:
 
         #print(self.bejovo_uzenetek)
         #print(self.index)
-        print(self.index_int)
+        #print(self.index_int)
         #print(self.valasz_index)
         #print(self.random1)
         #print(self.random2)
 
-    def append_items_2(self):
+    def append_items_2(self, text_input):
         for i, items in enumerate(self.bejovo_uzenetek):
-            if str.lower("Haliho") in str.lower(items):
-                print(items)
+            if str.lower(text_input) in str.lower(items):
+                #print(items)
                 self.number_order = (i)
-                print(self.number_order)
+                #print(self.number_order)
                 break
     
     def find_answer(self):
@@ -53,17 +53,17 @@ class Readexcel:
             else:
                 random_answers.append(self.inputWorksheet.cell_value(self.answer_index, z))
 
-        print(random_answers)
+        #print(random_answers)
         self.random_answers = random.choice(random_answers)
-        print(self.random_answers)
+        #print(self.random_answers)
 
 
-r = Readexcel('answers.xlsx')
+#r = Readexcel('answers.xlsx')
 
-r.import_excel()
-r.append_items()
-r.append_items_2()
-r.find_answer()
+#r.import_excel()
+#r.append_items()
+#r.append_items_2(text_input)
+#r.find_answer()
 
 
 #path = 'answers.xlsx'
