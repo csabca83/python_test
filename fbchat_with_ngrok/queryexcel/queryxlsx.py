@@ -52,7 +52,7 @@ class Readexcel:
                 pass
             else:
                 random_answers.append(self.inputWorksheet.cell_value(self.answer_index, z))
-
+        del self.inputWorkbook
         #print(random_answers)
         self.random_answers = random.choice(random_answers)
         #print(self.random_answers)
