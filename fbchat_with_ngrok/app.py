@@ -4,9 +4,10 @@
 
 from flask import Flask, request
 import json
+import urllib
 from bot import Bot
 from contextlib import contextmanager
-from queryexcel.queryxlsx import Readexcel
+from queryxlsx import Readexcel
 
 #Using contextmanager as a decorator for our function to safely open the file that contains the credentials
 
@@ -48,7 +49,7 @@ def webhook():
         #Triggering the bot function that we can use to send data back + passing the access token parameter to it
         data = json.loads(request.data)
         bot = Bot(ACCESS_TOKEN)
-        
+        print(data)
 
         #Extracting the data from the data variable for user_id
         user_id = data['entry'][0]['messaging'][0]['sender']['id']
@@ -60,12 +61,18 @@ def webhook():
         try:
             text_input = str.lower(data['entry'][0]['messaging'][0]['message']['text'])
             print ("Message from user ID {} - {}".format(user_id, text_input))
-            r = Readexcel('C:\\Users\\Csaba\\Desktop\\VSC folder\\github\\python_test\\fbchat_with_ngrok\\queryexcel\\answers.xlsx')
+
+
+            #Accessing raw content of the answers.xlsx in onedrive
+
+            file_name, headers = urllib.request.urlretrieve('https://api.onedrive.com/v1.0/shares/u!aHR0cHM6Ly8xZHJ2Lm1zL3gvcyFBbTg1bXlhQXk0dUxzeXBGTmtuejN4TUpndkR3P2U9bTJkMkJK/root/content')
+            path = file_name
+            r = Readexcel(path=path, ACCESS_TOKEN=ACCESS_TOKEN)
             r.import_excel()
             r.append_items()
             #Using the text message that we just received to decide what answer needs to be picked up from the answers.xlsx file
-            r.append_items_2(text_input)
-            r.find_answer()
+            r.append_items_2(text_input=text_input)
+            r.find_answer(user_id)
             #Picking the random answers from the Readexcel module and sending it back to the sender with an access token by using the Bot class
             bot.send_text_message(int(user_id), r.random_answers)
         
