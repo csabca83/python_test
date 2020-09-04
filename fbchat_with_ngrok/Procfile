@@ -1,1 +1,1 @@
-web: gunicorn app:app
+web: with_ngrok http 5000 -bind-tls=true
