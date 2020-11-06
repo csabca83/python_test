@@ -29,7 +29,7 @@ class Readexcel:
 
             else:
 
-                print(f"Uknown resource for this value: {self.resource_ID}")
+                print(f"Uknown resource for this value: {self.resource_ID} under this account: {self.account_ID}")
 
         else:
             print(f"Incorrect account number for the following cell value: {self.account_ID}")
