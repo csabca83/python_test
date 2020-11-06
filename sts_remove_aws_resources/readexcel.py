@@ -11,18 +11,22 @@ class Readexcel:
         workbook = xlrd.open_workbook(self.path)
         sheet = workbook.sheet_by_index(0)
 
-        self.account_ID = int(sheet.cell_value(self.cell, self.account_column))
+        try:
+            self.account_ID = int(sheet.cell_value(self.cell, self.account_column))
+        except:
+            self.account_ID = sheet.cell_value(self.cell, self.account_column)
+
         self.resource_ID = sheet.cell_value(self.cell, self.resource_column)
 
         #return account_ID, resource_ID
 
     def check_items(self):
         if len(str(self.account_ID)) == 12 and self.account_ID != "":
-            if "s3" in self.resource_ID:
+            if self.resource_ID != "":
 
-                print("S3 resource found")
+                print("Resource found")
 
-                return self.account_ID, self.resource_ID, "s3_remove"
+                return int(self.account_ID), self.resource_ID, "s3_remove"
                 
             #elif:
                 #TODO
@@ -32,4 +36,6 @@ class Readexcel:
                 print(f"Uknown resource for this value: {self.resource_ID} under this account: {self.account_ID}")
 
         else:
-            print(f"Incorrect account number for the following cell value: {self.account_ID}")
+            print(f"Incorrect account number for the following cell value: {self.resource_ID}")
+
+            return "None"
