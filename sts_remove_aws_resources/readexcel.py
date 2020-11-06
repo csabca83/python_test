@@ -1,8 +1,3 @@
-path = "collection_of_key_values.xlsx"
-resource_column = 0
-account_column = 1
-cell = 3
-
 class Readexcel:
 
     def __init__(self, resource_column, account_column, cell, path):
@@ -38,8 +33,3 @@ class Readexcel:
 
         else:
             print(f"Incorrect account number for the following cell value: {self.account_ID}")
-
-r = Readexcel(resource_column, account_column, cell, path)
-r.reading_items()
-checked = r.check_items()
-print(checked)
