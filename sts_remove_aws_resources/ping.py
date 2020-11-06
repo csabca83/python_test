@@ -1,17 +1,16 @@
 def ping_request():
-   import boto3
    import getpass
    import requests
    import sys
-   from requests.packages.urllib3.exceptions import InsecureRequestWarning
+   #from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
    # disables warning for insecure web calls for gathering credentials
-   requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+   #requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
-   ADUser = #input("Input your ad name (no domain): ")
-   ADPassword = #getpass.getpass("Input Password: ")
-   AccountNumber = #input("Input the account number to get credentials for: ")
-   RoleName = #input("Input the role name to get credentials for: ")
+   ADUser = input("Input your ad name (no domain): ")
+   ADPassword = getpass.getpass("Input Password: ")
+   AccountNumber = ""#input("Input the account number to get credentials for: ")
+   RoleName = ""#input("Input the role name to get credentials for: ")
 
    # retrieves temp credentials from ping
    def creds(user, password, account, role):
@@ -41,9 +40,4 @@ def ping_request():
    secret_key = tempcreds[0]
    session_token = tempcreds[1]
 
-   client = boto3.client("s3", aws_access_key_id=access_key,     aws_secret_access_key=secret_key,     aws_session_token=session_token)
-
-   response = client.list_objects(Bucket='341254748130-ca-central-1-s3-logs')
-
-   for objects in response:
-       print(objects)
+   return access_key, secret_key, session_token
