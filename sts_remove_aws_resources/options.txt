@@ -1,0 +1,11 @@
+Tell me the purpose of the script 
+You can choose from the following options:
+
+s3_remove - Removes the bucket and the objects from a bucket based on bucket name
+cloudwatch_even_rule_disable - Disable the cloudwatch event rule based upon the given name
+lambda_remove - Removes a lambda function based on the name of the function
+disable_kms - disables a kms key based on the key ID
+delete_log_group - Removes a cloudwatch log group based on the given log group name
+delete_key_pair - Removes an EC2 keypair based on the given key name
+
+Input your decision: 
