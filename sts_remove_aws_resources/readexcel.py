@@ -18,22 +18,17 @@ class Readexcel:
 
         self.resource_ID = sheet.cell_value(self.cell, self.resource_column)
 
-        #return account_ID, resource_ID
-
     def check_items(self):
         if len(str(self.account_ID)) == 12 and self.account_ID != "":
             if self.resource_ID != "":
 
-                print("Resource found")
+                print("Value found.")
 
-                return int(self.account_ID), self.resource_ID, "s3_remove"
-                
-            #elif:
-                #TODO
+                return int(self.account_ID), self.resource_ID
 
             else:
 
-                print(f"Uknown resource for this value: {self.resource_ID} under this account: {self.account_ID}")
+                print(f"No value was given for the: {self.account_ID}")
 
         else:
             print(f"Incorrect account number for the following cell value: {self.resource_ID}")
