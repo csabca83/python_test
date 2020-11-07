@@ -1,7 +1,7 @@
 def sts_request(account_ID, RoleArn):
     import boto3, os
 
-    stsclient = boto3.client('sts')#, AccessKeyId=access_key, SecretAccessKey=secret_key, SessionToken=session_token)
+    stsclient = boto3.client('sts')
     
     response = stsclient.assume_role(
         RoleArn=RoleArn,
