@@ -2,8 +2,11 @@ from boto3_functions import Boto3_functions as b3
 from readexcel import Readexcel as rx
 from sts import sts_request as sr
 from ping import ping_request as pr
-import xlrd, os, logging
-from botocore.exceptions import ClientError
+import xlrd, os, sys
+
+f = open("options.txt", "r+")
+s = f.read()
+what_to_do = input(s)
 
 pr_creds = pr()
 pr_access_key = pr_creds[0]
@@ -13,13 +16,9 @@ pr_session_token = pr_creds[2]
 path = "collection_of_key_values.xlsx" #input("Paste the file name and location here, if it's in the same folder as this script the filename + extension is enough: ")#"collection_of_key_values.xlsx"
 resource_column = int(input("Type the number for the column where the resource is , for example: A1 would be 0, B3 would be 1: "))
 account_column = int(input("Type the number for the column where the account ID is: "))
-name = "John"
 
 workbook = xlrd.open_workbook(path)
 sheet = workbook.sheet_by_index(0)
-
-def s3_remove():
-    print("Hello")
 
 for i in range(sheet.nrows):
 
@@ -33,18 +32,17 @@ for i in range(sheet.nrows):
     checked = r.check_items()
     print(checked)
     if str(checked) == "None":
-        pass
+        print("----------------")
     else:
         try:
 
-            RoleArn = (f"arn:aws:iam::{str(checked[0])}:role/<put role name>")
+            RoleArn = (f"arn:aws:iam::{str(checked[0])}:role/<add_your_role>")
             sts_creds = sr(str(checked[0]), RoleArn)
 
             boto_function = b3(checked[0], checked[1])
 
-            exec(f"boto_function.{checked[2]}()")
+            exec(f"boto_function.{what_to_do}()")
 
-        except ClientError:
-            logging.error(ClientError)
-            print("No function needs to be executed.")
+        except:
+            print('\x1b[0;30;41m' + f"{sys.exc_info()[1]}" + '\x1b[0m')
             print("----------------")
