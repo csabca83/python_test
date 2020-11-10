@@ -22,7 +22,7 @@ class Readexcel:
         if len(str(self.account_ID)) == 12 and self.account_ID != "":
             if self.resource_ID != "":
 
-                print("Value found.")
+                #print("Value found.")
 
                 return int(self.account_ID), self.resource_ID
 

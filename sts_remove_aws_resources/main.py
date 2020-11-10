@@ -13,33 +13,39 @@ pr_access_key = pr_creds[0]
 pr_secret_key = pr_creds[1]
 pr_session_token = pr_creds[2]
 
-path = "collection_of_key_values.xlsx" #input("Paste the file name and location here, if it's in the same folder as this script the filename + extension is enough: ")#"collection_of_key_values.xlsx"
-resource_column = int(input("Type the number for the column where the resource is , for example: A1 would be 0, B3 would be 1: "))
-account_column = int(input("Type the number for the column where the account ID is: "))
+path = "collection_of_key_values.xlsx" #input("Paste the file name and location here, if it's in the same folder as this script the filename + file extension is enough: ")
+resource_column = int(input("Type the number for the column where the resource is, for example: A1 would be 0, B3 would be 1: "))
+account_column = int(input("Type the number for the column where the account ID is, for example: A1 would be 0, B3 would be 1: "))
+assumed_role = pr_creds[3]
+region_input = input("Enter the region where the resources are being deployed, deleted or etc. (for example: us-east-1, eu-west-1, ca-central-1): ")
 
 workbook = xlrd.open_workbook(path)
 sheet = workbook.sheet_by_index(0)
 
-for i in range(sheet.nrows):
+os.environ["AWS_ACCESS_KEY_ID"] = pr_creds[0]
+os.environ["AWS_SECRET_ACCESS_KEY"] = pr_creds[1]
+os.environ["AWS_SESSION_TOKEN"] = pr_creds[2]
+os.environ["AWS_DEFAULT_REGION"] = region_input
 
-    os.environ["AWS_ACCESS_KEY_ID"] = pr_creds[0]
-    os.environ["AWS_SECRET_ACCESS_KEY"] = pr_creds[1]
-    os.environ["AWS_SESSION_TOKEN"] = pr_creds[2]
-    os.environ["AWS_DEFAULT_REGION"] = "ca-central-1"
+for i in range(sheet.nrows):
 
     r = rx(resource_column, account_column, i, path)
     r.reading_items()
     checked = r.check_items()
-    print(checked)
+    print(f"{checked}----> {what_to_do}")
     if str(checked) == "None":
         print("----------------")
     else:
         try:
 
-            RoleArn = (f"arn:aws:iam::{str(checked[0])}:role/<add_your_role>")
-            sts_creds = sr(str(checked[0]), RoleArn)
+            RoleArn = (f"arn:aws:iam::{str(checked[0])}:role/{assumed_role}")
+            tokens_from_sts = sr(str(checked[0]), RoleArn, pr_access_key, pr_secret_key, pr_session_token)
 
-            boto_function = b3(checked[0], checked[1])
+            boto_function = b3(checked[0], 
+                               checked[1], 
+                               access_key_id = tokens_from_sts[0], 
+                               secret_access_key = tokens_from_sts[1], 
+                               session_token = tokens_from_sts[2])
 
             exec(f"boto_function.{what_to_do}()")
 

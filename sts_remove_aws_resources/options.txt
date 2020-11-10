@@ -2,10 +2,15 @@ Tell me the purpose of the script
 You can choose from the following options:
 
 s3_remove - Removes the bucket and the objects from a bucket based on bucket name
-cloudwatch_even_rule_disable - Disable the cloudwatch event rule based upon the given name
+cloudwatch_event_rule_delete - Disable the cloudwatch event rule based upon the given name
 lambda_remove - Removes a lambda function based on the name of the function
 disable_kms - disables a kms key based on the key ID
 delete_log_group - Removes a cloudwatch log group based on the given log group name
 delete_key_pair - Removes an EC2 keypair based on the given key name
+delete_kms_alias - Removes a KMS alias based on the given alias name (alias/aws/key or alias/key)
+schedule_kms_deletion - Schedules a deletion for the key by a given Key ID (and disables the key), by default it was set to 7 days, but you can change it inside the boto3_functions.py file.
+cancel_kms_deletion - Removes the scheduled key deletion based on the given Key ID.
+enable_kms - Enables a KMS key based on the given ID.
+
 
 Input your decision: 

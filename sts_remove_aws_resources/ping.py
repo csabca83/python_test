@@ -7,16 +7,17 @@ def ping_request():
     # disables warning for insecure web calls for gathering credentials
     requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
-    ADUser = '<ad user name>' #input("Input your ad name (no domain): ")
-    ADPassword = '<ad password>' #getpass.getpass("Input Password: ")
-    AccountNumber = '<account number>' #input("Input the account number to get credentials for: ")
-    RoleName = '<role name>' #input("Input the role name to get credentials for: ")
+    ADUser = input("Input your ad name (no domain): ")
+    ADPassword = getpass.getpass("Input AD Password: ")
+    AccountNumber = input("Input the account number (<assumer_account> if the assumed role is <assumed role>, " +
+                                                    "<assumer_account> if the assumed role is <assumed role>): ")
+    RoleName = input("Input the assumer role name: ")
 
     # retrieves temp credentials from ping
     def creds(user, password, account, role):
 
         s = requests.Session()
-        url = "https://awsapi.us.aegon.com/default.aspx"
+        url = "<insert api server here>"
         payload = {"method":"usernameroleaccount","username":user,"password":password,"account":account,"role":role}
         req = requests.Request('POST', url, data=payload)
         prepped = req.prepare()
@@ -40,5 +41,9 @@ def ping_request():
     secret_key = tempcreds[0]
     session_token = tempcreds[1]
 
-    return access_key, secret_key, session_token
+    if AccountNumber == "<assumer_account>":
+        return access_key, secret_key, session_token, '<assumed role>'
+
+    else:
+        return access_key, secret_key, session_token, '<assumed role>'
 
