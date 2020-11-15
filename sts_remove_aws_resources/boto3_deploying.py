@@ -1,4 +1,4 @@
-import boto3, os, json
+import boto3, os, json, time
 
 class Deploying:
 
@@ -19,22 +19,37 @@ class Deploying:
                                    aws_secret_access_key = self.secret_access_key, 
                                    aws_session_token = self.session_token)
 
-        file_name = os.listdir('./POLICY_TO_CREATE_JSON/')[0]
-        try:
-            # Create a policy
-            policy_path = ("./POLICY_TO_CREATE_JSON/" + f"{file_name}")
+        policy_folder_items = os.listdir('./POLICY_TO_CREATE_JSON/')
 
-            file_name = file_name.replace('.json', "")
+        for items in range(len(policy_folder_items)):
 
-            with open(policy_path) as json_file:
-                data = json.load(json_file)
-
-            iam_client.create_policy(PolicyName=file_name,
-                                     PolicyDocument=json.dumps(data))
-            print('\x1b[6;30;42m' + f"Policy {file_name} was successfully deployed on the {self.account_ID}" + '\x1b[0m')
-
-        except:
-            print(f"{file_name} policy already exists on {self.account_ID}, skipping this step.")
+            file_name = policy_folder_items[items]
 
 
+            try:
+                for_arn = file_name.replace('.json', "").strip()
+                try:
+                    iam_client.get_policy(PolicyArn=(f"arn:aws:iam::{self.account_ID}:policy/{for_arn}"))
+                    print('\x1b[0;30;43m' + f"{for_arn} policy already exists on {self.account_ID}, skipping this step." + '\x1b[0m')
+                except iam_client.exceptions.NoSuchEntityException:
+                    time.sleep(2)
+                    iam_client.get_policy(PolicyArn=(f"arn:aws:iam::{self.account_ID}:policy/{for_arn}"))
+                    print('\x1b[0;30;43m' + f"{for_arn} policy already exists on {self.account_ID}, skipping this step." + '\x1b[0m')                    
 
+
+            except:
+                try:                    
+                # Create a policy
+                    policy_path = ("./POLICY_TO_CREATE_JSON/" + f"{file_name}")
+
+                    file_name = (file_name.replace('.json', "")).strip()
+
+                    with open(policy_path) as json_file:
+                        data = json.load(json_file)
+
+                    iam_client.create_policy(PolicyName=file_name,
+                                            PolicyDocument=json.dumps(data))
+                    print('\x1b[6;30;42m' + f"Policy {file_name} was successfully deployed on the {self.account_ID}" + '\x1b[0m')
+
+                except iam_client.exceptions.EntityAlreadyExistsException:
+                    print('\x1b[0;30;43m' + f"{for_arn} policy already exists on {self.account_ID}." + '\x1b[0m')
